@@ -31,7 +31,7 @@ O notebook baixa os dados direto do Roboflow e verifica a composição dos split
 
 **Hipótese:** o backbone pré-treinado no COCO já extrai bordas, texturas e formas genéricas, e o COCO tem muitas cenas com vários objetos. Por isso esperamos convergência mais rápida, mAP maior e melhor generalização para imagens diferentes das do treino.
 
-**Protocolo (um fator por vez):** a única diferença entre os dois modelos são os pesos iniciais. Ambos usam:
+**Protocolo:** a única diferença entre os dois modelos são os pesos iniciais. Ambos usam:
 - 15 épocas, `imgsz=416`, `batch=16` e os demais hiperparâmetros padrão do Ultralytics;
 - **Ultralytics 8.4.208** (versão fixa);
 - **3 sementes** (42, 43, 44), com resultados em média ± desvio padrão;
