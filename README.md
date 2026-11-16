@@ -72,6 +72,7 @@ O pré-treino no COCO melhora todos os cenários avaliados sem custo extra de tr
 
 ## Limitações
 
+- A maior limitação do trabalho foi o dataset usado e o split de imagens aplicado pelo autor do próprio dataset.
 - O teste só tem imagens com uma placa e satura. A comparação mais informativa é a da validação, que também foi usada para escolher a melhor época de cada treino. Isso deixa os números da validação levemente otimistas, igualmente para os dois modelos.
 - Nenhuma imagem de treino tem mais de uma placa, então ambos os modelos ainda erram muito nessas cenas (recall ≤ 0,45).
 - Os modelos foram treinados por 15 épocas. Na validação, o fine-tuning atinge o pico por volta da época 5; o baseline ainda melhorava no fim.
