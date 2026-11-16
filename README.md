@@ -21,7 +21,6 @@ Trabalho 2 de **Redes Neurais e Aprendizado Profundo (EMA9824)**, semestre 2026/
 
 O notebook baixa os dados direto do Roboflow e verifica a composição dos splits. Nenhuma foto de origem aparece em mais de um split. Cada foto aparece duas vezes dentro do seu split (augmentação aplicada pelo Roboflow).
 
-**Atenção à composição dos splits:** o treino e o teste têm **exatamente uma placa por imagem**. As imagens com duas ou mais placas aparecem **só na validação**. Isso explica por que o teste satura e por que a validação é o conjunto mais informativo (ver Resultados).
 
 ## Método
 
@@ -32,7 +31,7 @@ O notebook baixa os dados direto do Roboflow e verifica a composição dos split
 
 **Hipótese:** o backbone pré-treinado no COCO já extrai bordas, texturas e formas genéricas, e o COCO tem muitas cenas com vários objetos. Por isso esperamos convergência mais rápida, mAP maior e melhor generalização para imagens diferentes das do treino.
 
-**Protocolo (um fator por vez):** a única diferença entre os dois modelos são os pesos iniciais. Os dois usam:
+**Protocolo (um fator por vez):** a única diferença entre os dois modelos são os pesos iniciais. Ambos usam:
 - 15 épocas, `imgsz=416`, `batch=16` e os demais hiperparâmetros padrão do Ultralytics;
 - **Ultralytics 8.4.208** (versão fixa);
 - **3 sementes** (42, 43, 44), com resultados em média ± desvio padrão;
@@ -65,7 +64,7 @@ Ambiente: Google Colab, GPU NVIDIA Tesla T4.
 | Baseline (do zero) | 0,998 ± 0,002 | 0,995 ± 0,002 | 0,995 ± 0,000 | 0,885 ± 0,007 |
 | Fine-tuning (COCO) | 0,999 ± 0,001 | 1,000 ± 0,000 | 0,995 ± 0,000 | 0,899 ± 0,013 |
 
-O teste **satura**: os dois modelos atingem o teto do mAP@0.5 (0,995). Ele tem a mesma distribuição do treino (uma placa por imagem) e não distingue os modelos. No mAP@0.5:0.95, o ganho (+0,013) é da ordem da dispersão entre sementes.
+O teste satura, e os dois modelos atingem o teto do mAP@0.5 (0,995). Ele tem a mesma distribuição do treino (uma placa por imagem) e não distingue os modelos. No mAP@0.5:0.95, o ganho (+0,013) é da ordem da dispersão entre sementes.
 
 ### Conclusão
 
@@ -78,8 +77,6 @@ O pré-treino no COCO melhora todos os cenários avaliados sem custo extra de tr
 - Os modelos foram treinados por 15 épocas. Na validação, o fine-tuning atinge o pico por volta da época 5; o baseline ainda melhorava no fim.
 - O treino foi feito em mais de uma sessão do Colab. Por isso, os logs das células de treino mostram só as sementes da última sessão. Os pesos e `results.csv` das 3 sementes ficam no Google Drive e são lidos pelas células de avaliação.
 
-**Com mais tempo:** treinar com mosaic durante todo o treino (`close_mosaic=0`), que gera cenas artificiais com várias placas. Com 15 épocas e o padrão `close_mosaic=10`, ele só fica ativo nas 5 primeiras.
-
 ## Como reproduzir
 
 1. Abra `T2_Grupo7.ipynb` no Google Colab com GPU (**Ambiente de execução → Alterar tipo → T4 GPU**).
@@ -91,17 +88,13 @@ O pré-treino no COCO melhora todos os cenários avaliados sem custo extra de tr
    - treina o baseline e o fine-tuning, com 3 sementes cada (cerca de 50 min por treino numa T4, ~5 h no total);
    - avalia todos os modelos na validação e no teste, com a estratificação por número de placas;
    - gera as figuras.
-
-A **figura principal** (convergência do mAP na validação, baseline vs. fine-tuning) é gerada pela última célula e salva em `/content/convergencia_baseline_vs_ft.png`.
-
-As dependências estão em `requirements.txt`. No Colab, a célula de instalação do notebook já fixa as versões.
-
+   
 ## Autores
 
-| Integrante | Contribuição |
-|---|---|
-| Guilherme Bisse Alves Rodrigues | Escolha do tema e do dataset, código de treinamento e avaliação (em conjunto) |
-| Pietro Ferreira Franca | Escolha do tema e do dataset, código de treinamento e avaliação (em conjunto) |
+| Integrante |
+|---|
+| Guilherme Bisse Alves Rodrigues |
+| Pietro Ferreira Franca |
 
 ## Referências
 
